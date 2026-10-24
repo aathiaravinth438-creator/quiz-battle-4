@@ -1,0 +1,983 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEON QUIZ BATTLE</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+    background: #070816;
+    background-image: radial-gradient(ellipse at top, #171342, #070816 65%);
+}
+
+.container {
+    width: 92%;
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 25px 0 40px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.logo {
+    font-size: 34px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    color: #00f7ff;
+    text-shadow: 0 0 8px #00f7ff, 0 0 22px #008cff;
+}
+
+.subtitle {
+    color: #c1baff;
+    letter-spacing: 4px;
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.panel {
+    background: rgba(16, 18, 43, 0.96);
+    border: 1px solid #423c80;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 0 18px rgba(0, 247, 255, 0.10);
+}
+
+h2 {
+    text-align: center;
+    color: #ffffff;
+    margin-top: 0;
+}
+
+.description {
+    color: #aaa9ce;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.categories {
+    display: block;
+    margin-top: 22px;
+}
+
+.category {
+    width: 100%;
+    padding: 20px 12px;
+    margin: 9px 0;
+    border-radius: 12px;
+    color: white;
+    background: #141733;
+    border: 1px solid #5144a8;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.category:hover {
+    background: #282054;
+    border-color: #00f7ff;
+    box-shadow: 0 0 14px #00a8c9;
+}
+
+.category span {
+    display: block;
+    color: #aaa9ce;
+    font-size: 12px;
+    margin-top: 7px;
+    font-weight: normal;
+}
+
+.top-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.pill {
+    padding: 9px 13px;
+    border-radius: 20px;
+    background: #202044;
+    color: #00f7ff;
+    border: 1px solid #3b4280;
+    font-size: 13px;
+}
+
+.progress-track {
+    height: 8px;
+    background: #272747;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 100%;
+    background: #00f7ff;
+    box-shadow: 0 0 12px #00f7ff;
+    transition: width 0.3s;
+}
+
+.question {
+    font-size: 23px;
+    line-height: 1.5;
+    margin: 18px 0 24px;
+}
+
+.answers {
+    display: block;
+}
+
+.answer {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 11px 0;
+    padding: 15px;
+    color: #e8e8ff;
+    background: #151833;
+    border: 1px solid #41436e;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.answer:hover {
+    border-color: #00f7ff;
+    background: #20264b;
+}
+
+.answer.correct {
+    background: #103b36;
+    border-color: #00ff9d;
+    color: #7dffca;
+}
+
+.answer.wrong {
+    background: #461d34;
+    border-color: #ff477e;
+    color: #ff9db9;
+}
+
+.answer:disabled {
+    cursor: default;
+    opacity: 1;
+}
+
+.feedback {
+    min-height: 28px;
+    text-align: center;
+    margin: 18px 0;
+    font-weight: bold;
+}
+
+.primary-btn {
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    border-radius: 10px;
+    color: #070816;
+    background: #00f7ff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 14px rgba(0, 247, 255, 0.3);
+}
+
+.primary-btn:hover {
+    background: #80fbff;
+}
+
+.secondary-btn {
+    margin-top: 12px;
+    background: #25204b;
+    color: white;
+    border: 1px solid #7866e8;
+    box-shadow: none;
+}
+
+.result {
+    text-align: center;
+}
+
+.score {
+    font-size: 58px;
+    font-weight: bold;
+    color: #00f7ff;
+    text-shadow: 0 0 15px #008cff;
+    margin: 20px 0;
+}
+
+.result-message {
+    color: #d1ceff;
+    margin-bottom: 25px;
+    line-height: 1.7;
+}
+
+.hidden {
+    display: none;
+}
+
+.footer {
+    text-align: center;
+    color: #68688f;
+    font-size: 12px;
+    margin-top: 22px;
+}
+
+.name-input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 18px;
+    border-radius: 10px;
+    border: 1px solid #5144a8;
+    background: #0e1030;
+    color: #ffffff;
+    font-size: 16px;
+    text-align: center;
+}
+
+.name-input:focus {
+    outline: none;
+    border-color: #00f7ff;
+    box-shadow: 0 0 12px rgba(0, 247, 255, 0.4);
+}
+
+.tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 16px 0;
+}
+
+.tab {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: #202044;
+    color: #c1baff;
+    border: 1px solid #3b4280;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.tab.active {
+    background: #00f7ff;
+    color: #070816;
+    border-color: #00f7ff;
+    font-weight: bold;
+}
+
+.lb-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 10px;
+    background: #151833;
+    border: 1px solid #41436e;
+}
+
+.lb-row.top1 { border-color: #ffd700; box-shadow: 0 0 10px rgba(255, 215, 0, 0.25); }
+.lb-row.top2 { border-color: #c0c0c0; }
+.lb-row.top3 { border-color: #cd7f32; }
+
+.lb-rank { width: 36px; font-size: 20px; text-align: center; }
+.lb-name { flex: 1; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb-name small { display: block; color: #8d8bb5; font-weight: normal; font-size: 11px; margin-top: 3px; }
+.lb-points { color: #00f7ff; font-weight: bold; font-size: 18px; text-align: right; }
+.lb-points small { display: block; color: #8d8bb5; font-weight: normal; font-size: 11px; }
+.lb-status { text-align: center; color: #8d8bb5; font-size: 12px; margin-bottom: 8px; }
+.lb-empty { text-align: center; color: #8d8bb5; padding: 25px 0; }
+
+.points-line {
+    color: #ffd86b;
+    font-size: 18px;
+    margin: -8px 0 14px;
+}
+
+@media screen and (max-width: 500px) {
+    .logo {
+        font-size: 26px;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    .question {
+        font-size: 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+    <div class="header">
+        <div class="logo">NEON QUIZ BATTLE</div>
+        <div class="subtitle">THINK FAST • PLAY SMART • WIN BIG</div>
+    </div>
+
+    <div id="home" class="panel">
+        <h2>Choose Your Battle</h2>
+        <p class="description">
+            Pick a category, answer before time runs out,
+            and get the highest score!
+        </p>
+
+        <input id="playerName" class="name-input" type="text" maxlength="15"
+               placeholder="உங்கள் பெயர் / Your name" autocomplete="off">
+
+        <div class="categories">
+            <button class="category" onclick="startQuiz('Tamil')">
+                📚 TAMIL QUIZ
+                <span>தமிழ் மொழி மற்றும் இலக்கியம்</span>
+            </button>
+
+            <button class="category" onclick="startQuiz('Cricket')">
+                🏏 CRICKET QUIZ
+                <span>Cricket knowledge challenge</span>
+            </button>
+
+            <button class="category" onclick="startQuiz('Computer')">
+                💻 COMPUTER QUIZ
+                <span>Technology and computer basics</span>
+            </button>
+        </div>
+
+        <button class="primary-btn secondary-btn" onclick="showLeaderboard('All')">🏆 LEADERBOARD</button>
+
+        <p class="description">5 Questions Per Round • New Questions Every Time • 15 Seconds Each • Sound Effects</p>
+    </div>
+
+    <div id="game" class="panel hidden">
+        <div class="top-info">
+            <div id="categoryLabel" class="pill">CATEGORY</div>
+            <div id="questionLabel" class="pill">Question 1/5</div>
+            <div id="timerLabel" class="pill">TIME: 15s</div>
+            <div id="scoreLabel" class="pill">SCORE: 0</div>
+        </div>
+
+        <div class="progress-track">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        <h2 id="questionText" class="question">Question goes here</h2>
+
+        <div id="answers" class="answers"></div>
+        <div id="feedback" class="feedback"></div>
+
+        <button id="nextButton" class="primary-btn hidden"
+                onclick="nextQuestion()">NEXT QUESTION ➜</button>
+    </div>
+
+    <div id="result" class="panel hidden">
+        <div class="result">
+            <h2 id="resultTitle">BATTLE COMPLETE!</h2>
+            <div id="finalScore" class="score">0 / 5</div>
+            <div id="finalPoints" class="points-line"></div>
+            <p id="resultMessage" class="result-message"></p>
+            <button class="primary-btn" onclick="replay()">🔄 PLAY AGAIN</button>
+            <button class="primary-btn secondary-btn" onclick="showLeaderboard(currentCategory)">🏆 LEADERBOARD</button>
+            <button class="primary-btn secondary-btn" onclick="goHome()">⌂ HOME</button>
+        </div>
+    </div>
+
+    <div id="leaderboard" class="panel hidden">
+        <h2>🏆 LEADERBOARD</h2>
+        <div id="lbTabs" class="tabs"></div>
+        <div id="lbStatus" class="lb-status"></div>
+        <div id="lbList"></div>
+        <button class="primary-btn secondary-btn" onclick="goHome()">⌂ HOME</button>
+        <button class="primary-btn secondary-btn" onclick="clearBoard()">🗑 CLEAR MY DEVICE SCORES</button>
+    </div>
+
+    <div class="footer">NEON QUIZ BATTLE • OFFLINE GAMING</div>
+</div>
+
+<script>
+/* ======================================================
+   ONLINE LEADERBOARD SETTING
+   Firebase Realtime Database URL-ஐ இங்கே ஒட்டவும்.
+   உதாரணம்: "https://quiz-battle-12345-default-rtdb.firebaseio.com"
+   (கடைசியில் / வேண்டாம்). காலியாக விட்டால் அந்த சாதனத்தில் மட்டும் சேமிக்கும்.
+   ====================================================== */
+var DB_URL = "https://quiz-battle-abe78-default-rtdb.firebaseio.com";
+
+var ROUND_SIZE = 5;
+
+var quizData = {
+    Tamil: [
+        { q: "தமிழின் முதல் எழுத்து எது?", a: ["அ", "ஆ", "இ", "ஈ"], c: 0 },
+        { q: "திருக்குறளை எழுதியவர் யார்?", a: ["கம்பர்", "திருவள்ளுவர்", "பாரதியார்", "அவ்வையார்"], c: 1 },
+        { q: "தமிழில் உயிரெழுத்துகள் எத்தனை?", a: ["10", "12", "18", "216"], c: 1 },
+        { q: "சிலப்பதிகாரத்தை எழுதியவர் யார்?", a: ["இளங்கோ அடிகள்", "கம்பர்", "திருவள்ளுவர்", "பாரதியார்"], c: 0 },
+        { q: "தமிழ் எழுத்துகளின் மொத்த எண்ணிக்கை எவ்வளவு?", a: ["216", "247", "30", "12"], c: 1 },
+        { q: "தமிழ்நாட்டின் தலைநகரம் எது?", a: ["சென்னை", "மதுரை", "கோயம்புத்தூர்", "திருச்சி"], c: 0 },
+        { q: "'முப்பால்' என்று அழைக்கப்படும் நூல் எது?", a: ["புறநானூறு", "திருக்குறள்", "நாலடியார்", "கலித்தொகை"], c: 1 },
+        { q: "தமிழில் மெய்யெழுத்துகள் எத்தனை?", a: ["12", "18", "216", "247"], c: 1 },
+        { q: "ஆயுத எழுத்து எது?", a: ["ஃ", "ஔ", "ங", "ஞ"], c: 0 },
+        { q: "'மகாகவி' என்று அழைக்கப்படுபவர் யார்?", a: ["கண்ணதாசன்", "பாரதிதாசன்", "பாரதியார்", "வாலி"], c: 2 },
+        { q: "கம்பராமாயணத்தை எழுதியவர் யார்?", a: ["வால்மீகி", "கம்பர்", "ஒட்டக்கூத்தர்", "புகழேந்தி"], c: 1 },
+        { q: "திருக்குறளில் மொத்தம் எத்தனை அதிகாரங்கள் உள்ளன?", a: ["100", "108", "133", "150"], c: 2 },
+        { q: "திருக்குறளில் மொத்தம் எத்தனை குறட்பாக்கள் உள்ளன?", a: ["1000", "1330", "1500", "1080"], c: 1 },
+        { q: "இன்று கிடைக்கும் மிகப் பழமையான தமிழ் இலக்கண நூல் எது?", a: ["நன்னூல்", "தொல்காப்பியம்", "யாப்பருங்கலம்", "நேமிநாதம்"], c: 1 },
+        { q: "மணிமேகலையை எழுதியவர் யார்?", a: ["இளங்கோ அடிகள்", "சீத்தலைச் சாத்தனார்", "திருத்தக்க தேவர்", "கம்பர்"], c: 1 },
+        { q: "'தமிழ்த் தாத்தா' என்று அழைக்கப்படுபவர் யார்?", a: ["உ.வே. சாமிநாதையர்", "பாரதியார்", "திரு.வி.க", "மறைமலை அடிகள்"], c: 0 },
+        { q: "தமிழ்நாட்டின் மாநில மலர் எது?", a: ["தாமரை", "செங்காந்தள்", "மல்லிகை", "ரோஜா"], c: 1 },
+        { q: "ஆத்திசூடி நூலை எழுதியவர் யார்?", a: ["ஔவையார்", "திருவள்ளுவர்", "கம்பர்", "இளங்கோ அடிகள்"], c: 0 },
+        { q: "தமிழ்நாட்டின் மாநில விலங்கு எது?", a: ["புலி", "யானை", "நீலகிரி வரையாடு", "மான்"], c: 2 },
+        { q: "தமிழுக்குச் செம்மொழி அந்தஸ்து எந்த ஆண்டு வழங்கப்பட்டது?", a: ["1990", "2004", "2010", "1950"], c: 1 }
+    ],
+
+    Cricket: [
+        { q: "இந்திய கிரிக்கெட்டில் 'Captain Cool' என்று அழைக்கப்படுபவர் யார்?", a: ["விராட் கோலி", "எம். எஸ். தோனி", "ரோஹித் சர்மா", "கபில் தேவ்"], c: 1 },
+        { q: "ஒரு கிரிக்கெட் அணியில் களத்தில் எத்தனை வீரர்கள் இருப்பார்கள்?", a: ["9", "10", "11", "12"], c: 2 },
+        { q: "ஒரு ஓவரில் எத்தனை சட்டபூர்வ பந்துகள் வீசப்படும்?", a: ["4", "5", "6", "8"], c: 2 },
+        { q: "ICC என்பதன் விரிவாக்கம் என்ன?", a: ["International Cricket Council", "Indian Cricket Club", "International Cup Committee", "India Cricket Council"], c: 0 },
+        { q: "கிரிக்கெட்டில் பந்தை வீசுபவர் என்ன அழைக்கப்படுகிறார்?", a: ["Batter", "Bowler", "Keeper", "Umpire"], c: 1 },
+        { q: "1983 உலகக் கோப்பையை வென்ற இந்திய அணியின் கேப்டன் யார்?", a: ["சுனில் கவாஸ்கர்", "கபில் தேவ்", "எம். எஸ். தோனி", "அசாருதீன்"], c: 1 },
+        { q: "2011 உலகக் கோப்பையை வென்ற இந்திய அணியின் கேப்டன் யார்?", a: ["சச்சின் டெண்டுல்கர்", "சௌரவ் கங்குலி", "எம். எஸ். தோனி", "ராகுல் டிராவிட்"], c: 2 },
+        { q: "'Master Blaster' என்று அழைக்கப்படுபவர் யார்?", a: ["சச்சின் டெண்டுல்கர்", "வீரேந்தர் சேவாக்", "யுவராஜ் சிங்", "விராட் கோலி"], c: 0 },
+        { q: "கிரிக்கெட்டில் ஒரு விக்கெட்டில் எத்தனை ஸ்டம்புகள் இருக்கும்?", a: ["2", "3", "4", "5"], c: 1 },
+        { q: "ஒரு டெஸ்ட் போட்டி அதிகபட்சம் எத்தனை நாட்கள் நடைபெறும்?", a: ["3", "4", "5", "7"], c: 2 },
+        { q: "T20 போட்டியில் ஒரு அணிக்கு எத்தனை ஓவர்கள்?", a: ["10", "20", "40", "50"], c: 1 },
+        { q: "ஒருநாள் (ODI) போட்டியில் ஒரு அணிக்கு எத்தனை ஓவர்கள்?", a: ["20", "40", "50", "60"], c: 2 },
+        { q: "IPL தொடர் எந்த ஆண்டு தொடங்கியது?", a: ["2005", "2008", "2010", "2012"], c: 1 },
+        { q: "முதல் T20 உலகக் கோப்பையை (2007) வென்ற நாடு எது?", a: ["ஆஸ்திரேலியா", "இந்தியா", "பாகிஸ்தான்", "இலங்கை"], c: 1 },
+        { q: "கிரிக்கெட்டில் 'Duck' என்றால் என்ன?", a: ["0 ரன்னில் ஆட்டமிழப்பது", "சதம் அடிப்பது", "ஒரு விக்கெட் எடுப்பது", "ஒரு பவுண்டரி அடிப்பது"], c: 0 },
+        { q: "பந்து தரையில் படாமல் எல்லைக்கோட்டைத் தாண்டினால் எத்தனை ரன்கள்?", a: ["4", "5", "6", "8"], c: 2 },
+        { q: "சென்னையில் உள்ள புகழ்பெற்ற கிரிக்கெட் மைதானம் எது?", a: ["ஈடன் கார்டன்ஸ்", "வான்கடே", "சேப்பாக்கம் (சிதம்பரம் ஸ்டேடியம்)", "சின்னசாமி"], c: 2 },
+        { q: "ஒரே பந்துவீச்சாளர் தொடர்ச்சியாக 3 பந்துகளில் 3 விக்கெட் எடுப்பது எது?", a: ["ஹாட்ரிக்", "மெய்டன்", "டக்", "யார்க்கர்"], c: 0 },
+        { q: "ஒரு ஓவரில் எந்த ரன்னும் கொடுக்காமல் வீசினால் அது என்ன?", a: ["Maiden over", "No ball", "Wide", "Bye"], c: 0 },
+        { q: "டெஸ்ட் கிரிக்கெட்டில் அதிக விக்கெட்டுகள் (800) எடுத்தவர் யார்?", a: ["ஷேன் வார்ன்", "முத்தையா முரளிதரன்", "அனில் கும்ப்ளே", "ஜேம்ஸ் ஆண்டர்சன்"], c: 1 }
+    ],
+
+    Computer: [
+        { q: "CPU என்பதன் விரிவாக்கம் என்ன?", a: ["Central Processing Unit", "Computer Personal Unit", "Central Program Utility", "Control Processing User"], c: 0 },
+        { q: "கணினியின் மூளை என்று அழைக்கப்படுவது எது?", a: ["Mouse", "Keyboard", "CPU", "Monitor"], c: 2 },
+        { q: "HTML முக்கியமாக எதற்குப் பயன்படுகிறது?", a: ["Web pages உருவாக்க", "படம் எடுக்க", "அச்சிட", "கணினியை சார்ஜ் செய்ய"], c: 0 },
+        { q: "Keyboard என்பது எந்த வகை சாதனம்?", a: ["Output", "Input", "Storage", "Network"], c: 1 },
+        { q: "1 byte-ல் எத்தனை bits உள்ளன?", a: ["2", "4", "8", "16"], c: 2 },
+        { q: "RAM என்பதன் விரிவாக்கம் என்ன?", a: ["Random Access Memory", "Read Applied Memory", "Rapid Action Module", "Real Access Machine"], c: 0 },
+        { q: "Google Chrome என்பது எந்த வகை மென்பொருள்?", a: ["Web Browser", "Operating System", "Antivirus", "Game"], c: 0 },
+        { q: "Windows என்பது என்ன?", a: ["Operating System", "Web Browser", "Programming Language", "Hardware"], c: 0 },
+        { q: "Printer என்பது எந்த வகை சாதனம்?", a: ["Input", "Output", "Storage", "Processing"], c: 1 },
+        { q: "1 KB என்பது எத்தனை bytes?", a: ["100", "512", "1024", "2048"], c: 2 },
+        { q: "WWW என்பதன் விரிவாக்கம் என்ன?", a: ["World Wide Web", "World Web Work", "Wide World Web", "Web World Wide"], c: 0 },
+        { q: "Ctrl + C என்ன செய்யும்?", a: ["Cut", "Copy", "Paste", "Save"], c: 1 },
+        { q: "Ctrl + Z என்ன செய்யும்?", a: ["Redo", "Undo", "Delete", "Print"], c: 1 },
+        { q: "Python என்பது என்ன?", a: ["Programming Language", "Operating System", "Hard Disk", "Printer"], c: 0 },
+        { q: "Binary எண் முறையில் பயன்படும் இலக்கங்கள் எவை?", a: ["0 மற்றும் 1", "1 மற்றும் 2", "0 முதல் 9 வரை", "A மற்றும் B"], c: 0 },
+        { q: "Hard Disk என்பது எந்த வகை சாதனம்?", a: ["Storage", "Input", "Output", "Network"], c: 0 },
+        { q: "USB என்பதன் விரிவாக்கம் என்ன?", a: ["Universal Serial Bus", "United System Board", "Universal Signal Box", "Unique Serial Block"], c: 0 },
+        { q: "கணினியைப் பாதிக்கும் தீங்கு விளைவிக்கும் நிரல் எது?", a: ["Virus", "Browser", "Folder", "Icon"], c: 0 },
+        { q: "Email முகவரியில் இடம்பெறும் சிறப்புக் குறியீடு எது?", a: ["#", "@", "&", "%"], c: 1 },
+        { q: "Wi-Fi எதற்குப் பயன்படுகிறது?", a: ["கம்பியில்லா இணைய இணைப்பு", "அச்சிட", "ஒலி பதிவு செய்ய", "கணினியை சார்ஜ் செய்ய"], c: 0 }
+    ]
+};
+
+function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = arr[i];
+        arr[i] = arr[j];
+        arr[j] = t;
+    }
+    return arr;
+}
+
+/* ஏற்கனவே கேட்ட கேள்விகளைத் தவிர்த்து, புதிய கேள்விகளைத் தேர்ந்தெடுக்கும் */
+function pickQuestions(category) {
+    var pool = quizData[category];
+    var key = "quizUsed_" + category;
+    var used = [];
+
+    try {
+        used = JSON.parse(localStorage.getItem(key)) || [];
+    } catch (e) {
+        used = [];
+    }
+
+    var fresh = [];
+    for (var i = 0; i < pool.length; i++) {
+        if (used.indexOf(i) === -1) {
+            fresh.push(i);
+        }
+    }
+
+    /* புதிய கேள்விகள் போதவில்லை என்றால் முதலில் இருந்து தொடங்கும் */
+    if (fresh.length < ROUND_SIZE) {
+        used = [];
+        fresh = [];
+        for (var k = 0; k < pool.length; k++) {
+            fresh.push(k);
+        }
+    }
+
+    shuffle(fresh);
+    var chosen = fresh.slice(0, ROUND_SIZE);
+    used = used.concat(chosen);
+
+    try {
+        localStorage.setItem(key, JSON.stringify(used));
+    } catch (e) {}
+
+    var result = [];
+    for (var n = 0; n < chosen.length; n++) {
+        result.push(pool[chosen[n]]);
+    }
+    return result;
+}
+
+var currentCategory = "";
+var questions = [];
+var questionIndex = 0;
+var score = 0;
+var timeLeft = 15;
+var timerId = null;
+var answered = false;
+var audioContext = null;
+var points = 0;
+var playerName = "Player";
+
+function showScreen(id) {
+    var ids = ["home", "game", "result", "leaderboard"];
+    for (var i = 0; i < ids.length; i++) {
+        document.getElementById(ids[i]).className = "panel hidden";
+    }
+    document.getElementById(id).className = "panel";
+}
+
+function startQuiz(category) {
+    unlockAudio();
+
+    var typed = document.getElementById("playerName").value.replace(/^\s+|\s+$/g, "");
+    if (typed) {
+        playerName = typed;
+        try { localStorage.setItem("quizPlayerName", typed); } catch (e) {}
+    } else {
+        playerName = "Player";
+    }
+
+    currentCategory = category;
+    questions = pickQuestions(category);
+    questionIndex = 0;
+    score = 0;
+    points = 0;
+
+    showScreen("game");
+    document.getElementById("categoryLabel").innerHTML = category.toUpperCase();
+    showQuestion();
+}
+
+function showQuestion() {
+    stopTimer();
+    answered = false;
+    timeLeft = 15;
+
+    var q = questions[questionIndex];
+
+    document.getElementById("questionLabel").innerHTML =
+        "QUESTION " + (questionIndex + 1) + " / " + questions.length;
+
+    document.getElementById("scoreLabel").innerHTML = "SCORE: " + points;
+    document.getElementById("timerLabel").innerHTML = "TIME: " + timeLeft + "s";
+    document.getElementById("questionText").innerHTML = q.q;
+    document.getElementById("feedback").innerHTML = "";
+    document.getElementById("nextButton").className = "primary-btn hidden";
+    document.getElementById("progressBar").style.width = "100%";
+
+    var answersBox = document.getElementById("answers");
+    answersBox.innerHTML = "";
+
+    for (var i = 0; i < q.a.length; i++) {
+        var btn = document.createElement("button");
+        btn.className = "answer";
+        btn.innerHTML = String.fromCharCode(65 + i) + ". " + q.a[i];
+        btn.setAttribute("data-index", i);
+
+        btn.onclick = function() {
+            chooseAnswer(parseInt(this.getAttribute("data-index"), 10));
+        };
+
+        answersBox.appendChild(btn);
+    }
+
+    timerId = window.setInterval(function() {
+        timeLeft--;
+        document.getElementById("timerLabel").innerHTML = "TIME: " + timeLeft + "s";
+        document.getElementById("progressBar").style.width =
+            ((timeLeft / 15) * 100) + "%";
+
+        if (timeLeft <= 0) {
+            stopTimer();
+            if (!answered) {
+                answered = true;
+                playGameSound("wrong");
+                document.getElementById("feedback").innerHTML =
+                    "⏰ TIME UP! Correct answer: " + q.a[q.c];
+                document.getElementById("feedback").style.color = "#ff789d";
+                disableAnswers();
+                showNextButton();
+            }
+        }
+    }, 1000);
+}
+
+function chooseAnswer(index) {
+    if (answered) {
+        return;
+    }
+
+    answered = true;
+    stopTimer();
+
+    var q = questions[questionIndex];
+    var buttons = document.getElementById("answers").getElementsByTagName("button");
+
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+
+        if (i === q.c) {
+            buttons[i].className = "answer correct";
+        }
+    }
+
+    if (index === q.c) {
+        var gain = 10 + timeLeft;
+        score++;
+        points += gain;
+        playGameSound("correct");
+        document.getElementById("feedback").innerHTML = "⚡ CORRECT! +" + gain + " POINTS";
+        document.getElementById("feedback").style.color = "#00ffad";
+    } else {
+        buttons[index].className = "answer wrong";
+        playGameSound("wrong");
+        document.getElementById("feedback").innerHTML =
+            "✖ WRONG! Answer: " + q.a[q.c];
+        document.getElementById("feedback").style.color = "#ff789d";
+    }
+
+    document.getElementById("scoreLabel").innerHTML = "SCORE: " + points;
+    showNextButton();
+}
+
+function disableAnswers() {
+    var buttons = document.getElementById("answers").getElementsByTagName("button");
+
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = true;
+
+        if (i === questions[questionIndex].c) {
+            buttons[i].className = "answer correct";
+        }
+    }
+}
+
+function showNextButton() {
+    var btn = document.getElementById("nextButton");
+
+    if (questionIndex === questions.length - 1) {
+        btn.innerHTML = "VIEW FINAL RESULT 🏆";
+    } else {
+        btn.innerHTML = "NEXT QUESTION ➜";
+    }
+
+    btn.className = "primary-btn";
+}
+
+function nextQuestion() {
+    if (!answered) {
+        return;
+    }
+
+    if (questionIndex < questions.length - 1) {
+        questionIndex++;
+        showQuestion();
+    } else {
+        showResult();
+    }
+}
+
+function showResult() {
+    stopTimer();
+    showScreen("result");
+
+    document.getElementById("finalScore").innerHTML =
+        score + " / " + questions.length;
+    document.getElementById("finalPoints").innerHTML = "⭐ " + points + " POINTS";
+    saveScore();
+
+    if (score === questions.length) {
+        document.getElementById("resultTitle").innerHTML = "🏆 PERFECT VICTORY!";
+        document.getElementById("resultMessage").innerHTML =
+            "Amazing! All answers are correct. You are the Neon Champion!";
+        playGameSound("win");
+    } else if (score >= 3) {
+        document.getElementById("resultTitle").innerHTML = "⚡ GREAT BATTLE!";
+        document.getElementById("resultMessage").innerHTML =
+            "Well played! Keep practising and beat your high score.";
+    } else {
+        document.getElementById("resultTitle").innerHTML = "🎮 KEEP TRAINING!";
+        document.getElementById("resultMessage").innerHTML =
+            "Good try! Play again and improve your score.";
+    }
+}
+
+function stopTimer() {
+    if (timerId !== null) {
+        window.clearInterval(timerId);
+        timerId = null;
+    }
+}
+
+function replay() {
+    startQuiz(currentCategory);
+}
+
+function goHome() {
+    stopTimer();
+    showScreen("home");
+}
+
+function unlockAudio() {
+    try {
+        var AudioClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioClass) { return; }
+        if (!audioContext) { audioContext = new AudioClass(); }
+        if (audioContext.state === "suspended" && audioContext.resume) {
+            audioContext.resume();
+        }
+    } catch (e) {}
+}
+
+function playTone(freq, endFreq, delay, duration, wave, volume) {
+    var oscillator = audioContext.createOscillator();
+    var gain = audioContext.createGain();
+    var start = audioContext.currentTime + delay;
+
+    oscillator.type = wave;
+    oscillator.frequency.setValueAtTime(freq, start);
+    if (endFreq && endFreq !== freq) {
+        oscillator.frequency.linearRampToValueAtTime(endFreq, start + duration);
+    }
+
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.linearRampToValueAtTime(volume, start + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+    oscillator.start(start);
+    oscillator.stop(start + duration + 0.05);
+}
+
+function playGameSound(type) {
+    try {
+        unlockAudio();
+        if (!audioContext) { return; }
+
+        if (type === "correct") {
+            /* சரியான பதில்: உயரும் இனிமையான "டிங்-டிங்" */
+            playTone(784, 784, 0, 0.18, "triangle", 0.45);
+            playTone(1047, 1047, 0.13, 0.22, "triangle", 0.45);
+            playTone(1568, 1568, 0.26, 0.35, "sine", 0.35);
+        } else if (type === "win") {
+            var win = [523, 659, 784, 1047, 1319];
+            for (var w = 0; w < win.length; w++) {
+                playTone(win[w], win[w], w * 0.13, 0.25, "triangle", 0.45);
+            }
+        } else {
+            /* தவறான பதில்: தாழ்ந்த "பஸ்ஸர்" ஒலி */
+            playTone(200, 120, 0, 0.28, "sawtooth", 0.35);
+            playTone(160, 90, 0.25, 0.4, "sawtooth", 0.35);
+        }
+    } catch (e) {
+        /* Game remains playable if browser audio is unavailable. */
+    }
+}
+
+/* ---------- Leaderboard (இந்த சாதனத்தில் சேமிக்கப்படும்) ---------- */
+function getBoard() {
+    try {
+        return JSON.parse(localStorage.getItem("quizBoard")) || [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveScore() {
+    var entry = {
+        name: playerName,
+        cat: currentCategory,
+        correct: score,
+        total: questions.length,
+        points: points,
+        date: new Date().getTime()
+    };
+
+    /* இந்த சாதனத்தில் சேமி */
+    var board = getBoard();
+    board.push(entry);
+    board.sort(function(a, b) { return b.points - a.points || a.date - b.date; });
+    board = board.slice(0, 100);
+    try { localStorage.setItem("quizBoard", JSON.stringify(board)); } catch (e) {}
+
+    /* ஆன்லைனில் அனைவருக்கும் பொதுவாக சேமி */
+    if (DB_URL) {
+        try {
+            fetch(DB_URL + "/scores.json", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(entry)
+            }).catch(function() {});
+        } catch (e) {}
+    }
+}
+
+function loadBoard(callback) {
+    if (!DB_URL) {
+        callback(getBoard(), "local");
+        return;
+    }
+
+    fetch(DB_URL + "/scores.json")
+        .then(function(res) {
+            if (!res.ok) { throw new Error("bad response"); }
+            return res.json();
+        })
+        .then(function(data) {
+            var rows = [];
+            if (data) {
+                for (var key in data) {
+                    if (data.hasOwnProperty(key) && data[key] && typeof data[key].points === "number") {
+                        rows.push(data[key]);
+                    }
+                }
+            }
+            rows.sort(function(a, b) { return b.points - a.points || a.date - b.date; });
+            callback(rows, "online");
+        })
+        .catch(function() {
+            callback(getBoard(), "offline");
+        });
+}
+
+function showLeaderboard(cat) {
+    showScreen("leaderboard");
+
+    var cats = ["All", "Tamil", "Cricket", "Computer"];
+    var tabs = document.getElementById("lbTabs");
+    tabs.innerHTML = "";
+
+    for (var t = 0; t < cats.length; t++) {
+        var tab = document.createElement("button");
+        tab.className = "tab" + (cats[t] === cat ? " active" : "");
+        tab.textContent = cats[t] === "All" ? "ALL" : cats[t].toUpperCase();
+        tab.setAttribute("data-cat", cats[t]);
+        tab.onclick = function() {
+            showLeaderboard(this.getAttribute("data-cat"));
+        };
+        tabs.appendChild(tab);
+    }
+
+    var list = document.getElementById("lbList");
+    var status = document.getElementById("lbStatus");
+    list.innerHTML = "";
+    status.textContent = DB_URL ? "⏳ Loading..." : "";
+
+    loadBoard(function(allRows, mode) {
+        if (mode === "online") {
+            status.textContent = "🌐 அனைத்து வீரர்களின் மதிப்பெண்கள்";
+        } else if (mode === "offline") {
+            status.textContent = "⚠️ இணையம் இணைக்க முடியவில்லை. இந்த சாதனத்தின் மதிப்பெண்கள் மட்டும்.";
+        } else {
+            status.textContent = "📱 இந்த சாதனத்தின் மதிப்பெண்கள் மட்டும் (DB_URL அமைக்கப்படவில்லை)";
+        }
+        renderRows(list, allRows, cat);
+    });
+}
+
+function renderRows(list, allRows, cat) {
+    list.innerHTML = "";
+
+    var rows = allRows.filter(function(r) {
+        return cat === "All" || r.cat === cat;
+    }).slice(0, 10);
+
+    if (rows.length === 0) {
+        var empty = document.createElement("div");
+        empty.className = "lb-empty";
+        empty.textContent = "இன்னும் யாரும் விளையாடவில்லை. முதல் ஆளாக வாருங்கள்! 🎮";
+        list.appendChild(empty);
+        return;
+    }
+
+    var medals = ["🥇", "🥈", "🥉"];
+
+    for (var i = 0; i < rows.length; i++) {
+        var r = rows[i];
+        var row = document.createElement("div");
+        row.className = "lb-row" + (i < 3 ? " top" + (i + 1) : "");
+
+        var rank = document.createElement("div");
+        rank.className = "lb-rank";
+        rank.textContent = i < 3 ? medals[i] : (i + 1);
+
+        var name = document.createElement("div");
+        name.className = "lb-name";
+        name.textContent = String(r.name || "Player").slice(0, 15);
+        var sub = document.createElement("small");
+        sub.textContent = r.cat + " • " + r.correct + "/" + r.total + " correct";
+        name.appendChild(sub);
+
+        var pts = document.createElement("div");
+        pts.className = "lb-points";
+        pts.textContent = r.points;
+        var ptsSmall = document.createElement("small");
+        ptsSmall.textContent = "points";
+        pts.appendChild(ptsSmall);
+
+        row.appendChild(rank);
+        row.appendChild(name);
+        row.appendChild(pts);
+        list.appendChild(row);
+    }
+}
+
+function clearBoard() {
+    if (window.confirm("இந்த சாதனத்தில் உள்ள Leaderboard-ஐ அழிக்கவா? (ஆன்லைன் மதிப்பெண்கள் அழியாது)")) {
+        try { localStorage.removeItem("quizBoard"); } catch (e) {}
+        showLeaderboard("All");
+    }
+}
+
+/* கடைசியாகப் பயன்படுத்திய பெயரை நினைவில் வைக்கும் */
+try {
+    var savedName = localStorage.getItem("quizPlayerName");
+    if (savedName) {
+        document.getElementById("playerName").value = savedName;
+    }
+} catch (e) {}
+</script>
+</body>
+</html>
